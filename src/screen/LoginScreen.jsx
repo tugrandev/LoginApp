@@ -1,10 +1,20 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Image, ImageBackground, StyleSheet, Text, TextInput, KeyboardAvoidingView ,View, Touchable, TouchableOpacityComponent, TouchableOpacity } from 'react-native'
 import React from 'react'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import LinearGradient from 'react-native-linear-gradient';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { useNavigation } from '@react-navigation/native';
+
 
 const LoginScreen = () => {
+
+  const navigation = useNavigation();
+
+  const handleRegister = () => {
+    navigation.navigate("SignUp")
+  }
+
   return (
     <View style= {styles.container}>
       <View style= {styles.topImageContainer}>
@@ -21,24 +31,38 @@ const LoginScreen = () => {
       </View>
       <View style= {styles.inputContainer}>
         <FontAwesome name= {"user"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
-        <TextInput style= {styles.TextInput} placeholder='Telefon No'/>
+        <TextInput style= {styles.TextInput} placeholder='Telefon No' keyboardType='phone-pad'/>
       </View>
       <View style= {styles.inputContainer}>
         <Fontisto name= {"locked"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
-        <TextInput style= {styles.TextInput} placeholder='Şifre' secureTextEntry/>
+        <TextInput style= {styles.TextInput} placeholder='Şifre' keyboardType='numeric' secureTextEntry/>
       </View>
       <Text style= {styles.forgotPass}>Şifremi unuttum</Text>
       <View style= {styles.signInButtonContainer}>
         <Text style= {styles.signIn}>Giriş yap</Text>
-        <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
-          <Text style={styles.buttonText}>
-            Sign in with Facebook
-          </Text>
+        <LinearGradient colors={['#F97794', '#623AA2']} style={styles.linearGradient}>
+        <AntDesign name= {"arrowright"} size= {24} color={"white"}/>
         </LinearGradient>
       </View>
+      <TouchableOpacity onPress={handleRegister}>
+      <Text style= {styles.footerText}>Hesabınız yok mu? {""}
+      <Text style= {{textDecorationLine: "underline"}}>Oluşturun.</Text>
+      </Text>
+      </TouchableOpacity>
+      <KeyboardAvoidingView
+      behavior={Platform.OS == "null"}
+      style={{ flex: 1 }}
+      > 
+        <View style= {styles.bottomImageContainer}>
+        <ImageBackground
+        source={require("../assets/bottomVector.png")}
+        style= {styles.bottomImage}
+        />
+      </View>
+      </KeyboardAvoidingView>
     </View>
-  )
-}
+  );
+};
 
 export default LoginScreen
 
@@ -108,12 +132,46 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 
-  signInButtonContainer: {},
+  signInButtonContainer: {
+    flexDirection: "row",
+    marginTop: 110,
+    width: "90%",
+    justifyContent: "flex-end"
+  },
 
   signIn: {
     color: "#262626",
     fontSize: 25,
     fontWeight: "bold",
+  },
+
+  linearGradient: {
+    width: 56,
+    height: 34,
+    borderRadius: 17,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10
+  },
+
+  footerText: {
+    color: "#262626",
+    textAlign: "center",
+    fontSize: 16,
+    marginTop: 123,
+  },
+
+  bottomImageContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+  },
+
+  bottomImage: {
+    height: 259,
+    width: 200,
+    marginLeft: -40
+
   }
 
 })
