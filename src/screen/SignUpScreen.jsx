@@ -1,4 +1,4 @@
-import { Image, ImageBackground, StyleSheet, Text, TextInput, KeyboardAvoidingView ,View, TouchableOpacity } from 'react-native'
+import { Image, ImageBackground, StyleSheet, Text, TextInput, KeyboardAvoidingView ,View, Touchable, TouchableOpacityComponent, TouchableOpacity } from 'react-native'
 import React from 'react'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -7,7 +7,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 
 
-const SignUpScreen = () => {
+const LoginScreen = () => {
 
   const navigation = useNavigation();
 
@@ -18,7 +18,6 @@ const SignUpScreen = () => {
   const handleGoBack = () => {
     navigation.navigate("Login")
   }
-
 
   return (
     <View style= {styles.container}>
@@ -40,11 +39,11 @@ const SignUpScreen = () => {
       </View>
       <View style= {styles.inputContainer}>
         <Fontisto name= {"locked"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
-        <TextInput style= {styles.TextInput} placeholder='Şifre' keyboardType='numeric'/>
+        <TextInput style= {styles.TextInput} placeholder='Şifre' keyboardType='numeric' secureTextEntry/>
       </View>
       <View style= {styles.inputContainer}>
         <Fontisto name= {"locked"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
-        <TextInput style= {styles.TextInput} placeholder='Şifre tekrar' keyboardType='numeric'/>
+        <TextInput style= {styles.TextInput} placeholder='Şifre tekrar' keyboardType='numeric' secureTextEntry/>
       </View>
       <View style= {styles.signInButtonContainer}>
         <Text style= {styles.signIn}>Hesap oluştur</Text>
@@ -52,22 +51,15 @@ const SignUpScreen = () => {
         <AntDesign name= {"arrowright"} size= {24} color={"white"}/>
         </LinearGradient>
       </View>
-      <KeyboardAvoidingView
-      behavior={Platform.OS == "null"}
-      style={{ flex: 1 }}
-      > 
-        <View style= {styles.bottomImageContainer}>
-        <ImageBackground
-        source={require("../assets/bottomVector.png")}
-        style= {styles.bottomImage}
-        />
-      </View>
-      </KeyboardAvoidingView>
+      <ImageBackground
+      source={require("../assets/bottomVector.png")}
+      style= {styles.bottomImage}
+      />
     </View>
   );
 };
 
-export default SignUpScreen
+export default LoginScreen
 
 const styles = StyleSheet.create({
 
@@ -75,14 +67,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5F5",
     flex: 1,
   },
- 
+
   backButton: {
     position: 'absolute',
     top: 60,
     left: 20,
     zIndex: 1,
   },
-
+ 
   topImageContainer: {},
 
   topImage: {
@@ -101,11 +93,11 @@ const styles = StyleSheet.create({
   },
 
   createAccount: {
+    marginTop: 105,
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 39,
     color: "#262626",
-    marginTop: 20,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
 
   inputContainer: {
@@ -146,7 +138,7 @@ const styles = StyleSheet.create({
 
   signInButtonContainer: {
     flexDirection: "row",
-    marginTop: 110,
+    marginTop: 80,
     width: "90%",
     justifyContent: "flex-end"
   },
@@ -155,6 +147,7 @@ const styles = StyleSheet.create({
     color: "#262626",
     fontSize: 25,
     fontWeight: "bold",
+    marginBottom: 150
   },
 
   linearGradient: {
@@ -170,7 +163,7 @@ const styles = StyleSheet.create({
     color: "#262626",
     textAlign: "center",
     fontSize: 16,
-    marginTop: 123,
+    marginTop: 107,
   },
 
   bottomImageContainer: {
@@ -182,7 +175,8 @@ const styles = StyleSheet.create({
   bottomImage: {
     height: 259,
     width: 200,
-    marginLeft: -40
-
+    marginLeft: -40,
+    marginTop: -190
   }
+
 })

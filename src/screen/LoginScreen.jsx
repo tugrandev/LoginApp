@@ -49,17 +49,10 @@ const LoginScreen = () => {
       <Text style= {{textDecorationLine: "underline"}}>Oluşturun.</Text>
       </Text>
       </TouchableOpacity>
-      <KeyboardAvoidingView
-      behavior={Platform.OS == "null"}
-      style={{ flex: 1 }}
-      > 
-        <View style= {styles.bottomImageContainer}>
-        <ImageBackground
-        source={require("../assets/bottomVector.png")}
-        style= {styles.bottomImage}
-        />
-      </View>
-      </KeyboardAvoidingView>
+      <ImageBackground
+      source={require("../assets/bottomVector.png")}
+      style= {styles.bottomImage}
+      />
     </View>
   );
 };
@@ -134,7 +127,8 @@ const styles = StyleSheet.create({
 
   signInButtonContainer: {
     flexDirection: "row",
-    marginTop: 110,
+    marginTop: 70,
+    marginBottom: 40,
     width: "90%",
     justifyContent: "flex-end"
   },
@@ -170,8 +164,8 @@ const styles = StyleSheet.create({
   bottomImage: {
     height: 259,
     width: 200,
-    marginLeft: -40
-
+    marginLeft: -40,
+    marginTop: -190
   }
 
 })
