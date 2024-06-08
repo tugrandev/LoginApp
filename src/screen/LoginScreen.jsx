@@ -1,63 +1,109 @@
-import { Image, ImageBackground, StyleSheet, Text, TextInput, KeyboardAvoidingView ,View, Touchable, TouchableOpacityComponent, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { Image, ImageBackground, StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-
+import { userApi } from '../api/userApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
-
   const navigation = useNavigation();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleRegister = () => {
-    navigation.navigate("SignUp")
-  }
+    navigation.navigate("SignUp");
+  };
+
+  const handleLogin = async () => {
+    if (!username || !password) {
+      Alert.alert('Hata', 'Kullanıcı adı ve şifre gereklidir');
+      return;
+    }
+
+    try {
+      const result = await userApi({
+        username: username,
+        password: password,
+      });
+
+      console.log('API Result:', result);
+      console.log('Kullanıcı adı:',username);
+      console.log('Şifre:', password);
+
+      if (result.status === 200) {
+        await AsyncStorage.setItem("AccessToken", result.data.token);
+        navigation.replace("ProductList");
+      } else {
+        Alert.alert('Hata', 'Geçersiz kullanıcı adı veya şifre');
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Hata', 'Bir hata oluştu');
+    }
+  };
 
   return (
-    <View style= {styles.container}>
-      <View style= {styles.topImageContainer}>
+    <View style={styles.container}>
+      <View style={styles.topImageContainer}>
         <Image
-        source={require("../assets/topVector.png")}
-        style= {styles.topImage}
+          source={require("../assets/topVector.png")}
+          style={styles.topImage}
         />
       </View>
-      <View style= {styles.merhabaContainer}>
-        <Text style= {styles.merhabaText}>Merhaba</Text>
+      <View style={styles.merhabaContainer}>
+        <Text style={styles.merhabaText}>Merhaba</Text>
       </View>
       <View>
-        <Text style= {styles.signContainer}>Hesabınıza giriş yapın</Text>
+        <Text style={styles.signContainer}>Hesabınıza giriş yapın</Text>
       </View>
-      <View style= {styles.inputContainer}>
-        <FontAwesome name= {"user"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
-        <TextInput style= {styles.TextInput} placeholder='Telefon No' keyboardType='phone-pad'/>
+      <View style={styles.inputContainer}>
+        <FontAwesome name={"user"} size={24} color={"#9A9A9A"} style={styles.inputIcon} />
+        <TextInput
+          style={styles.TextInput}
+          placeholder='Telefon No'
+          
+          value={username}
+          onChangeText={setUsername}
+        />
       </View>
-      <View style= {styles.inputContainer}>
-        <Fontisto name= {"locked"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
-        <TextInput style= {styles.TextInput} placeholder='Şifre' keyboardType='numeric' secureTextEntry/>
+      <View style={styles.inputContainer}>
+        <Fontisto name={"locked"} size={24} color={"#9A9A9A"} style={styles.inputIcon} />
+        <TextInput
+          style={styles.TextInput}
+          placeholder='Şifre'
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
       </View>
-      <Text style= {styles.forgotPass}>Şifremi unuttum</Text>
-      <View style= {styles.signInButtonContainer}>
-        <Text style= {styles.signIn}>Giriş yap</Text>
-        <LinearGradient colors={['#F97794', '#623AA2']} style={styles.linearGradient}>
-        <AntDesign name= {"arrowright"} size= {24} color={"white"}/>
-        </LinearGradient>
+      <Text style={styles.forgotPass}>Şifremi unuttum</Text>
+      <View style={styles.signInButtonContainer}>
+        <TouchableOpacity onPress={handleLogin} style={styles.signInButton}>
+          <Text style={styles.signIn}>Giriş yap</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleLogin}>
+          <LinearGradient colors={['#F97794', '#623AA2']} style={styles.linearGradient}>
+            <AntDesign name={"arrowright"} size={24} color={"white"} />
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={handleRegister}>
-      <Text style= {styles.footerText}>Hesabınız yok mu? {""}
-      <Text style= {{textDecorationLine: "underline"}}>Oluşturun.</Text>
-      </Text>
+        <Text style={styles.footerText}>Hesabınız yok mu? {""}
+          <Text style={{ textDecorationLine: "underline" }}>Oluşturun.</Text>
+        </Text>
       </TouchableOpacity>
       <ImageBackground
-      source={require("../assets/bottomVector.png")}
-      style= {styles.bottomImage}
+        source={require("../assets/bottomVector.png")}
+        style={styles.bottomImage}
       />
     </View>
   );
 };
 
-export default LoginScreen
+export default LoginScreen;
 
 const styles = StyleSheet.create({
 
