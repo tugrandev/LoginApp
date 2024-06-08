@@ -5,7 +5,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
-import { userApi } from '../api/userApi';
+import { loginApi } from '../api/loginApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
@@ -24,7 +24,7 @@ const LoginScreen = () => {
     }
 
     try {
-      const result = await userApi({
+      const result = await loginApi({
         username: username,
         password: password,
       });

@@ -1,65 +1,114 @@
-import { Image, ImageBackground, StyleSheet, Text, TextInput, KeyboardAvoidingView ,View, Touchable, TouchableOpacityComponent, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react';
+import { Image, ImageBackground, StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import LinearGradient from 'react-native-linear-gradient';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
+import { registerApi } from '../api/registerApi'; // registerApi'yi import ediyoruz
 
-
-const LoginScreen = () => {
-
+const RegisterScreen = () => {
   const navigation = useNavigation();
-
-  const handleRegister = () => {
-    navigation.navigate("SignUp")
-  }
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleGoBack = () => {
-    navigation.navigate("Login")
-  }
+    navigation.navigate("Login");
+  };
+
+  const handleRegister = async () => {
+
+    if (!username || !password || !confirmPassword) {
+      Alert.alert("Hata", "LÜtfen tüm alanları doldurun!");
+      return;
+    } else if (password !== confirmPassword) {
+      Alert.alert("Hata", "Şifreler uyuşmuyor");
+      return;
+    } 
+  
+    const data = {
+      username: username,
+      password: password,
+    };
+  
+    const result = await registerApi(data);
+    console.log("Register result:", result); // Gelen sonucu konsola yazdır
+  
+    if (result.status === 200) {
+      Alert.alert("Başarılı", "Kayıt başarılı", [
+        { text: "Tamam", onPress: () => navigation.navigate("Login") }
+      ]);
+    } else {
+      Alert.alert("Kayıt başarısız", result || "Bilinmeyen bir hata oluştu.");
+    }
+  };
 
   return (
-    <View style= {styles.container}>
+    <View style={styles.container}>
       <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
         <AntDesign name="arrowleft" size={24} color="#262626" />
       </TouchableOpacity>
-      <View style= {styles.topImageContainer}>
+      <View style={styles.topImageContainer}>
         <Image
-        source={require("../assets/topVector.png")}
-        style= {styles.topImage}
+          source={require("../assets/topVector.png")}
+          style={styles.topImage}
         />
       </View>
       <View>
-        <Text style= {styles.createAccount}>Hesap oluştur</Text>
+        <Text style={styles.createAccount}>Hesap oluştur</Text>
       </View>
-      <View style= {styles.inputContainer}>
-        <FontAwesome name= {"user"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
-        <TextInput style= {styles.TextInput} placeholder='Telefon No' keyboardType='phone-pad'/>
+      <View style={styles.inputContainer}>
+        <FontAwesome name={"user"} size={24} color={"#9A9A9A"} style={styles.inputIcon} />
+        <TextInput
+          style={styles.TextInput}
+          placeholder='Telefon No'
+          keyboardType='phone-pad'
+          value={username}
+          onChangeText={setUsername}
+        />
       </View>
-      <View style= {styles.inputContainer}>
-        <Fontisto name= {"locked"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
-        <TextInput style= {styles.TextInput} placeholder='Şifre' keyboardType='numeric' secureTextEntry/>
+      <View style={styles.inputContainer}>
+        <Fontisto name={"locked"} size={24} color={"#9A9A9A"} style={styles.inputIcon} />
+        <TextInput
+          style={styles.TextInput}
+          placeholder='Şifre'
+          keyboardType='numeric'
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
       </View>
-      <View style= {styles.inputContainer}>
-        <Fontisto name= {"locked"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
-        <TextInput style= {styles.TextInput} placeholder='Şifre tekrar' keyboardType='numeric' secureTextEntry/>
+      <View style={styles.inputContainer}>
+        <Fontisto name={"locked"} size={24} color={"#9A9A9A"} style={styles.inputIcon} />
+        <TextInput
+          style={styles.TextInput}
+          placeholder='Şifre tekrar'
+          keyboardType='numeric'
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
       </View>
-      <View style= {styles.signInButtonContainer}>
-        <Text style= {styles.signIn}>Hesap oluştur</Text>
+      <View style={styles.signInButtonContainer}>
+        <TouchableOpacity onPress={handleRegister}>
+          <Text style={styles.signIn}>Hesap oluştur</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleRegister}>
         <LinearGradient colors={['#F97794', '#623AA2']} style={styles.linearGradient}>
-        <AntDesign name= {"arrowright"} size= {24} color={"white"}/>
-        </LinearGradient>
+            <AntDesign name={"arrowright"} size={24} color={"white"} />
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
       <ImageBackground
-      source={require("../assets/bottomVector.png")}
-      style= {styles.bottomImage}
+        source={require("../assets/bottomVector.png")}
+        style={styles.bottomImage}
       />
     </View>
   );
 };
 
-export default LoginScreen
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
 

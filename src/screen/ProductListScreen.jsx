@@ -11,10 +11,6 @@ const LoginScreen = () => {
 
   const navigation = useNavigation();
 
-  const handleRegister = () => {
-    navigation.navigate("SignUp")
-  }
-
   const handleGoBack = () => {
     navigation.navigate("Login")
   }
@@ -31,7 +27,7 @@ const LoginScreen = () => {
         />
       </View>
       <View>
-        <Text style= {styles.createAccount}>Hesap oluştur</Text>
+        <Text style= {styles.createAccount}>Product List</Text>
       </View>
       <View style= {styles.inputContainer}>
         <FontAwesome name= {"user"} size= {24} color={"#9A9A9A"} style= {styles.inputIcon}/>
