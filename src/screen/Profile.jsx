@@ -1,14 +1,20 @@
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {StyleSheet, Text, SafeAreaView} from 'react-native';
 
-const Profile = () => {
+
+const Home = () => {
   return (
-    <SafeAreaView>
-      <Text>Profile</Text>
-    </SafeAreaView>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Text>Profile!</Text>
+    </View>
   );
 };
 
-export default Profile;
+export default Home;
 
 const styles = StyleSheet.create({});

@@ -73,7 +73,6 @@ const RegisterScreen = () => {
         <TextInput
           style={styles.TextInput}
           placeholder='Şifre'
-          keyboardType='numeric'
           secureTextEntry
           value={password}
           onChangeText={setPassword}
@@ -84,7 +83,6 @@ const RegisterScreen = () => {
         <TextInput
           style={styles.TextInput}
           placeholder='Şifre tekrar'
-          keyboardType='numeric'
           secureTextEntry
           value={confirmPassword}
           onChangeText={setConfirmPassword}

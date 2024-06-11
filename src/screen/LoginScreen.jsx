@@ -29,7 +29,7 @@ const LoginScreen = (props) => {
         password: password,
       });
 
-      console.log('API Result:', result);
+      console.log('API Result:', result.data);
       console.log('Kullanıcı adı:',username);
       console.log('Şifre:', password);
 
@@ -64,7 +64,7 @@ const LoginScreen = (props) => {
         <TextInput
           style={styles.TextInput}
           placeholder='Telefon No'
-          
+          keyboardType='phone-pad'
           value={username}
           onChangeText={setUsername}
         />
