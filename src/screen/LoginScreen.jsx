@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import { loginApi } from '../api/loginApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LoginScreen = () => {
+const LoginScreen = (props) => {
   const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -35,7 +35,7 @@ const LoginScreen = () => {
 
       if (result.status === 200) {
         await AsyncStorage.setItem("AccessToken", result.data.token);
-        navigation.replace("ProductList");
+        navigation.replace("Home");
       } else {
         Alert.alert('Hata', 'Geçersiz kullanıcı adı veya şifre');
       }
